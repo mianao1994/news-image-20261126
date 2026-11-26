@@ -1,0 +1,30 @@
+"""A make.fun news-image entry (Python 3.13, standard library only).
+
+The image is the entry.png beside this file, and the program copies it
+to /output/entry.png. The gate takes a whole PNG or JPEG of at most
+1 MiB and 1024 by 1024 pixels, and the judge sees exactly the bytes
+copied. No network access; the output is byte-for-byte the bundled
+image, so two runs are identical.
+
+Outside the grader's container, MAKEFUN_OUTPUT_DIR stands in for
+/output:
+    mkdir -p out && MAKEFUN_OUTPUT_DIR=out python3 main.py
+"""
+
+import os
+import shutil
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+SRC = HERE / "entry.png"
+OUT_DIR = Path(os.environ.get("MAKEFUN_OUTPUT_DIR", "/output"))
+DST = OUT_DIR / "entry.png"
+
+
+def main() -> None:
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(SRC, DST)
+
+
+if __name__ == "__main__":
+    main()
